@@ -219,7 +219,7 @@ async function uploadPhoto(){
 
         const response =
         await fetch(
-            "http://localhost:3000/upload",
+            "https://valute-hsd4.onrender.com/upload",
             {
                 method:"POST",
                 body:formData
@@ -258,7 +258,7 @@ async function loadPhotos(){
 
         const response =
         await fetch(
-            "http://localhost:3000/photos"
+            "https://valute-hsd4.onrender.com/photos"
         );
 
         const photos =
@@ -278,7 +278,7 @@ async function loadPhotos(){
             <div class="photo-card">
 
                 <img
-                src="http://localhost:3000/${photo.filepath}">
+                src="https://valute-hsd4.onrender.com/${photo.filepath}">
 
                 <div class="card-footer">
 
