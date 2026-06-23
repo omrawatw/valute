@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>JARVIS SETTINGS</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#010b18;
+color:#00ffff;
+}
+
+.topbar{
+padding:20px;
+font-size:28px;
+text-align:center;
+border-bottom:1px solid cyan;
+box-shadow:0 0 20px cyan;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.panel{
+background:#021426;
+border:1px solid cyan;
+border-radius:15px;
+padding:20px;
+box-shadow:0 0 15px cyan;
+}
+
+h2{
+margin-top:0;
+}
+
+video{
+width:100%;
+border-radius:10px;
+border:2px solid cyan;
+box-shadow:0 0 20px cyan;
+}
+
+#status{
+margin-top:10px;
+font-size:18px;
+color:#00ff99;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:black;
+color:white;
+border:1px solid cyan;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:10px;
+font-size:18px;
+background:#00192d;
+color:cyan;
+border:1px solid cyan;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{
+box-shadow:0 0 15px cyan;
+}
+
+#stats{
+font-size:20px;
+line-height:40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+⚙ JARVIS SETTINGS
+</div>
+
+<div class="container">
+
+<div class="panel">
+
+<h2>FACE SECURITY</h2>
+
+<video
+id="video"
+autoplay
+muted
+playsinline> </video>
+
+<div id="status">
+Loading...
+</div>
+
+<button onclick="registerFace()">
+📸 Register Face
+</button>
+
+<button onclick="deleteFace()">
+🗑 Delete Face
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>MASTER PASSWORD</h2>
+
+<input
+type="password"
+id="masterPassword"
+placeholder="New Master Password">
+
+<button onclick="saveMasterPassword()">
+🔐 Save Password
+</button>
+
+<hr>
+
+<h2>VAULT STATS</h2>
+
+<div id="stats">
+Loading...
+</div>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+async function saveMasterPassword(){
+
+const password =
+document.getElementById(
+"masterPassword"
+).value;
+
+if(password.length < 4){
+
+alert(
+"Password too short"
+);
+
+return;
+
+}
+
+const response =
+await fetch(
+"http://localhost:3000/settings/password",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+password
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+alert(
+"Password Saved"
+);
+
+}
+
+}
+
+async function loadStats(){
+
+try{
+
+const photos =
+await fetch(
+"http://localhost:3000/photos"
+);
+
+const photoData =
+await photos.json();
+
+const passwords =
+await fetch(
+"http://localhost:3000/passwords"
+);
+
+const passData =
+await passwords.json();
+
+document.getElementById(
+"stats"
+).innerHTML =
+
+`
+📷 Photos : ${photoData.length}<br>
+🔐 Passwords : ${passData.length}
+`;
+
+}
+catch(err){
+
+console.error(err);
+
+}
+
+}
+
+function logout(){
+
+window.location.href =
+"index.html";
+
+}
+
+loadStats();
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+
+<script src="face.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+<script defer src="face.js"></script>
+</body>
+</html>

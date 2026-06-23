@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JARVIS Photo Vault</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#020617;
+    color:#00ffff;
+    min-height:100vh;
+}
+
+.top-bar{
+    height:70px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    border-bottom:1px solid cyan;
+    box-shadow:0 0 15px cyan;
+}
+
+.top-bar h1{
+    font-size:24px;
+}
+
+.back-btn{
+    padding:10px 20px;
+    background:transparent;
+    border:1px solid cyan;
+    color:cyan;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.back-btn:hover{
+    box-shadow:0 0 15px cyan;
+}
+
+.container{
+    padding:30px;
+}
+
+.upload-box{
+    border:1px solid cyan;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:30px;
+    box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+.upload-box h2{
+    margin-bottom:15px;
+}
+
+input[type=file]{
+    color:white;
+}
+
+.upload-btn{
+    margin-top:15px;
+    padding:12px 25px;
+    background:transparent;
+    border:1px solid cyan;
+    color:cyan;
+    cursor:pointer;
+    border-radius:10px;
+}
+
+.upload-btn:hover{
+    box-shadow:0 0 15px cyan;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+}
+
+.photo-card{
+    border:1px solid cyan;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+.photo-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card-footer{
+    padding:10px;
+}
+
+.delete-btn{
+    width:100%;
+    padding:10px;
+    background:transparent;
+    border:1px solid red;
+    color:red;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.delete-btn:hover{
+    box-shadow:0 0 10px red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top-bar">
+
+    <h1>📷 JARVIS PHOTO VAULT</h1>
+
+    <button
+    class="back-btn"
+    onclick="goBack()">
+
+    DASHBOARD
+
+    </button>
+
+</div>
+
+<div class="container">
+
+    <div class="upload-box">
+
+        <h2>UPLOAD PHOTO</h2>
+
+        <input
+        type="file"
+        id="photoUpload"
+        accept="image/*">
+
+        <br>
+
+        <button
+        class="upload-btn"
+        onclick="uploadPhoto()">
+
+        UPLOAD PHOTO
+
+        </button>
+
+    </div>
+
+    <div
+    id="gallery"
+    class="gallery">
+
+    </div>
+
+</div>
+
+<script>
+
+function speak(text){
+
+    speechSynthesis.speak(
+        new SpeechSynthesisUtterance(text)
+    );
+
+}
+
+speak("Opening Photo Vault");
+
+function goBack(){
+
+    window.location.href =
+    "index.html";
+
+}
+
+async function uploadPhoto(){
+
+    const file =
+    document.getElementById(
+        "photoUpload"
+    ).files[0];
+
+    if(!file){
+
+        alert(
+            "Please Select Photo"
+        );
+
+        return;
+    }
+
+    const formData =
+    new FormData();
+
+    formData.append(
+        "photo",
+        file
+    );
+
+    try{
+
+        const response =
+        await fetch(
+            "http://localhost:3000/upload",
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+        const data =
+        await response.json();
+
+        if(data.success){
+
+            speak(
+                "Photo Uploaded Successfully"
+            );
+
+            loadPhotos();
+
+        }
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert(
+            "Upload Failed"
+        );
+
+    }
+
+}
+
+async function loadPhotos(){
+
+    try{
+
+        const response =
+        await fetch(
+            "http://localhost:3000/photos"
+        );
+
+        const photos =
+        await response.json();
+
+        const gallery =
+        document.getElementById(
+            "gallery"
+        );
+
+        gallery.innerHTML = "";
+
+        photos.forEach(photo=>{
+
+            gallery.innerHTML += `
+
+            <div class="photo-card">
+
+                <img
+                src="http://localhost:3000/${photo.filepath}">
+
+                <div class="card-footer">
+
+                    <button
+                    class="delete-btn">
+
+                    DELETE
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+    catch(err){
+
+        console.error(err);
+
+    }
+
+}
+
+loadPhotos();
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JARVIS AI SECURITY</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+<!-- <script defer src="app.js"></script> -->
+<script defer src="face.js"></script>
+
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+    <div>
+        JARVIS AI SECURITY SYSTEM
+    </div>
+
+    <div id="clock">
+        00:00:00
+    </div>
+
+</div>
+
+<!-- LOGIN SCREEN -->
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+
+    <div class="left-panel">
+
+        <h2>SYSTEM</h2>
+
+        <p>CPU : ONLINE</p>
+        <p>RAM : NORMAL</p>
+        <p>NETWORK : ACTIVE</p>
+        <p>STORAGE : READY</p>
+
+    </div>
+
+    <!-- CENTER PANEL -->
+
+    <div class="center-panel">
+
+        <div class="scanner-ring"></div>
+
+        <video
+            id="video"
+            autoplay
+            muted
+            playsinline>
+        </video>
+
+        <canvas id="overlay"></canvas>
+
+        <!-- FACE BOX -->
+
+        <div id="faceBox"></div>
+
+        <!-- SCAN LINE -->
+
+        <div id="scanLine"></div>
+
+        <!-- STATUS -->
+
+        <div id="status">
+
+            INITIALIZING AI...
+
+        </div>
+
+        <!-- HUD -->
+
+        <div id="hudInfo">
+
+            TARGET ACQUIRED
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+
+    <div class="right-panel">
+
+        <h2>AI ANALYSIS</h2>
+
+        <p id="humanStatus">
+            Human : Detecting...
+        </p>
+
+        <p id="faceStatus">
+            Face : Detecting...
+        </p>
+
+        <p id="matchStatus">
+            Match : -- %
+        </p>
+
+        <p id="threatStatus">
+            Threat : LOW
+        </p>
+
+        <input
+            type="password"
+            id="masterPassword"
+            placeholder="Master Password">
+
+        <button onclick="unlockWithPassword()">
+
+            ACCESS
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div
+id="dashboard"
+style="display:none;">
+
+    <h1>
+
+        ACCESS GRANTED
+
+    </h1>
+
+    <div class="cards">
+
+        <div
+        class="card"
+        onclick="openPhotos()">
+
+            📷 PHOTOS
+
+        </div>
+
+        <div
+        class="card"
+        onclick="openPasswords()">
+
+            🔐 PASSWORDS
+
+        </div>
+
+        <div
+        class="card"
+        onclick="openAnalytics()">
+
+            📊 ANALYTICS
+
+        </div>
+
+        <div
+        class="card"
+        onclick="openSettings()">
+
+            ⚙ SETTINGS
+
+        </div>
+
+    </div>
+
+    <button
+    class="logoutBtn"
+    onclick="logout()">
+
+        LOGOUT
+
+    </button>
+
+</div>
+
+<script>
+
+function openPhotos(){
+
+    speak("Opening Photo Vault  sir");
+
+    location.href =
+    "photos.html";
+
+}
+
+function openPasswords(){
+
+    speak("Opening Password Vault  sir  ");
+
+    location.href =
+    "passwords.html";
+
+}
+
+function openAnalytics(){
+
+    speak("Opening Analytics  sir");
+
+    location.href =
+    "analytics.html";
+
+}
+
+function openSettings(){
+
+    speak("Opening Settings sir");
+
+    location.href =
+    "settings.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
