@@ -155,7 +155,7 @@ async function registerFace(){
 
         const response =
         await fetch(
-            "http://localhost:3000/face/register",
+            "https://valute-hsd4.onrender.com/face/register",
             {
                 method:"POST",
 
@@ -204,7 +204,7 @@ async function deleteFace(){
 
         const response =
         await fetch(
-            "http://localhost:3000/face",
+            "https://valute-hsd4.onrender.com/face",
             {
                 method:"DELETE"
             }
@@ -244,7 +244,7 @@ async function verifyFace(){
 
         const savedResponse =
         await fetch(
-            "http://localhost:3000/face"
+            "https://valute-hsd4.onrender.com/face"
         );
 
         const savedData =
